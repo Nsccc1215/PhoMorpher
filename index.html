@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PhoMorpher</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(135deg, #73a5ff, #5477f5);
+            color: #fff;
+        }
+        h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+        }
+        form {
+            text-align: center;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 12px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            max-width: 400px;
+            width: 100%;
+        }
+        .file-upload {
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+        }
+        .file-upload input[type="file"] {
+            position: absolute;
+            left: 0;
+            top: 0;
+            opacity: 0; /* 隱藏原始文件選擇器 */
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+        }
+        .file-upload .custom-button {
+            background-color: #007BFF;
+            color: white;
+            font-size: 16px;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        .file-upload .custom-button:hover {
+            background-color: #0056b3;
+        }
+        .file-upload .file-name {
+            display: block;
+            margin-top: 10px;
+            font-size: 14px;
+            color: red; /* 文件名顯示為紅色 */
+            font-weight: bold;
+        }
+        label {
+            font-size: 18px;
+            color: #333;
+        }
+        input[type="number"] {
+            font-size: 16px;
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            width: 100%;
+        }
+        button {
+            font-size: 18px;
+            padding: 10px 20px;
+            color: #fff;
+            background-color: #ff6f61;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #e85e51;
+        }
+        .hint {
+            margin-top: 20px;
+            font-size: 14px;
+            color: #f7f7f7;
+            text-align: center;
+            max-width: 400px;
+        }
+    </style>
+    <script>
+        function updateFileName(input) {
+            const fileName = input.files.length > 0 ? input.files[0].name : "尚未選取檔案";
+            document.querySelector('.file-name').textContent = fileName;
+        }
+    </script>
+</head>
+<body>
+    <h1>PhoMorpher</h1>
+    <!-- 表單部分 -->
+    <form action="/upload" method="POST" enctype="multipart/form-data">
+        <div class="file-upload">
+            <label for="file">選擇照片：</label>
+            <button type="button" class="custom-button">選擇檔案</button>
+            <input type="file" id="file" name="file" accept="image/*" required onchange="updateFileName(this)">
+            <span class="file-name">尚未選取檔案</span>
+        </div>
+        <br>
+        <!-- 設定降維參數 -->
+        <label for="components">主成分數量 (預設值 50)：</label>
+        <input type="number" id="components" name="components" value="50" min="1" required>
+        <br>
+        <!-- 提交表單 -->
+        <button type="submit">上傳並執行</button>
+    </form>
+    <!-- 提示訊息 -->
+    <p class="hint">
+        主成分數量越高，圖片細節越清晰；<br>
+        數量越低，圖片壓縮越多但失真程度可能增加。
+    </p>
+</body>
+</html>
